@@ -16,8 +16,6 @@ jobs:
     steps:
 
     - uses: actions/checkout@v3
-#     - uses: browser-actions/setup-chrome@latest
-#     - run: chrome --version
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -29,15 +27,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Check Chrome
+
+    - name: Check Chrome version
       run: |
         google-chrome --version
 
     - name: Test with pytest and generate junit xml report
-      env:
-        CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless;--window-size=1920,1080
       run: |
         pytest tests ## --junitxml report.xml
+      env:
+        CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless;--window-size=1920,1080
       
 #     - name: Create test summary
 #       uses: test-summary/action@v1.0
