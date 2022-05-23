@@ -32,6 +32,8 @@ jobs:
     - name: Test with pytest and generate junit xml report
       run: |
         pytest tests --junitxml report.xml
+      env:
+          CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless;--window-size=1920,1080
     
     - name: Create test summary
       uses: test-summary/action@v1.0
