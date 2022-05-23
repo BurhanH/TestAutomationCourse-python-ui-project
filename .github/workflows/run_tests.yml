@@ -30,10 +30,11 @@ jobs:
         pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest and generate junit xml report
-      run: |
-        pytest tests --junitxml report.xml
       env:
         CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless;--window-size=1920,1080
+      run: |
+        pytest tests --junitxml report.xml
+      
 
     
     - name: Create test summary
