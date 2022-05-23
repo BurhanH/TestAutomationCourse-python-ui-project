@@ -10,7 +10,18 @@ class TestBrowser(unittest.TestCase):
         Initiate driver for each test
         """
         service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
+        chrome_options = webdriver.ChromeOptions()
+        # --disable-gpu;
+        # --no-sandbox;
+        # --disable-dev-shm-usage;
+        # --headless;
+        # --window-size=1920,1080
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--window-size=1920,1080')
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
     def test_navigate_to_google(self) -> None:
         """
