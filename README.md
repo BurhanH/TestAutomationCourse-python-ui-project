@@ -30,13 +30,13 @@ python -m unittest discover tests "*.py" -v
 - Create a new branch (use descriptive name)
 - Make changes (add tests)
 - Commit changes into the branch
-- Push changes into forked repsitory
+- Push changes into forked repository
 - Make a PR from your forked repository into this repo
-- Add reviwers 
+- Add reviewers 
 - And send a message in our channel with a link to your PR
 - Note! If there are failures, please review logs and failed tests, and fix them!
 
-## How can I contrubute to this repository
+## How can I contribute to this repository
 
 - There are 2 or more ways to do it
   - Add more UI tests
