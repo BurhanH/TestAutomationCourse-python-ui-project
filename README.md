@@ -2,7 +2,7 @@
 
 Python UI project for Test Automation Course
 
-[![Run Python Tests](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml/badge.svg)](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml)
+[![Run Python Tests](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml)
 
 ## How to run tests from one file
 
