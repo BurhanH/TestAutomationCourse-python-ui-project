@@ -65,6 +65,7 @@ class TestBrowser(unittest.TestCase):
         time.sleep(8)
         self.assertEqual(self.driver.current_url, 'https://demoqa.com/interaction')
 
+    @unittest.skip ("need fix")
     def test_books_link(self):
         self.driver.get('https://demoqa.com')
         books = self.driver.find_element(By.XPATH, '(//*[@id="app"]/div/div/div[2]/div/div[6]/div/div[2])')
