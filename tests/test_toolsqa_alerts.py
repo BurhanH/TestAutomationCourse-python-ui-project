@@ -39,7 +39,7 @@ class TestToolsQAAlerts(unittest.TestCase):
         actual_alert_text = alert.text
         expected_alert_text = 'You clicked a button'
         self.assertEqual(actual_alert_text, expected_alert_text,
-                         f"Unexpected text on alert: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
 
     def test_delayed_alert(self):
         self.driver.find_element(By.ID, 'timerAlertButton').click()
@@ -56,7 +56,7 @@ class TestToolsQAAlerts(unittest.TestCase):
         delay = time.time() - start_time
         expected_alert_text = 'This alert appeared after 5 seconds'
         self.assertEqual(actual_alert_text, expected_alert_text,
-                         f"Unexpected text on alert: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
         self.assertAlmostEqual(delay, 5, delta=0.3, msg=f"Alert appeared in {delay} sec, expected in 5 sec.")
 
     @unittest.skip('TODO')
