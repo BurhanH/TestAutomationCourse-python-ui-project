@@ -53,19 +53,17 @@ class TestToolsQAAlerts(unittest.TestCase):
         except UnexpectedAlertPresentException:
             alert = self.driver.switch_to.alert
         actual_alert_text = alert.text
-        alert.accept()
-        end_time = time.time()
-        expected_alert_text = 'This alert appeared after 5 seconds.'
+        delay = time.time() - start_time
+        expected_alert_text = 'This alert appeared after 5 seconds'
         self.assertEqual(actual_alert_text, expected_alert_text,
                          f"Unexpected text on alert: '{actual_alert_text}', expected: '{expected_alert_text}'.")
-        delay = end_time - start_time
         self.assertAlmostEqual(delay, 5, delta=0.3, msg=f"Alert appeared in {delay} sec, expected in 5 sec.")
 
-    @unittest.skip('under construction')
+    @unittest.skip('TODO')
     def test_confirmation_alert(self):
         pass
 
-    @unittest.skip('under construction')
+    @unittest.skip('TODO')
     def test_prompt_alert(self):
         pass
 
