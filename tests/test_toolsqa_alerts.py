@@ -7,7 +7,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import UnexpectedAlertPresentException, TimeoutException, NoAlertPresentException
+from selenium.common.exceptions import UnexpectedAlertPresentException, TimeoutException, NoAlertPresentException, \
+    NoSuchElementException
 
 BASE_URL = 'https://demoqa.com/alerts'
 
@@ -100,9 +101,88 @@ class TestToolsQAAlerts(unittest.TestCase):
                          f"Unexpected confirm result text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
 
 
-    @unittest.skip('TODO')
-    def test_prompt_alert(self):
-        pass
+    def test_prompt_alert_cancel(self):
+        self.driver.find_element(By.ID,'promtButton').click()
+
+        try:
+            alert = self.driver.switch_to.alert
+        except NoAlertPresentException:
+            self.fail('Alert is not present after click on fourth button.')
+        actual_alert_text = alert.text
+        expected_alert_text = 'Please enter your name'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+        alert.dismiss()
+        try:
+            prompt_result = self.driver.find_element(By. ID, 'promptResult')
+            self.fail(f"Text {prompt_result.text} should not be present! Call 911 =)")
+        except NoSuchElementException:
+            pass
+
+    def test_prompt_alert_fill_out_field_cancel(self):
+        self.driver.find_element(By.ID,'promtButton').click()
+
+        try:
+            alert = self.driver.switch_to.alert
+        except NoAlertPresentException:
+            self.fail('Alert is not present after click on fourth button.')
+        actual_alert_text = alert.text
+        expected_alert_text = 'Please enter your name'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+        alert.send_keys('something!')
+
+        alert.dismiss()
+        try:
+            prompt_result = self.driver.find_element(By. ID, 'promptResult')
+            self.fail(f"Text {prompt_result.text} should not be present! Call 911 =)")
+        except NoSuchElementException:
+            pass
+
+    def test_prompt_alert_empty_field_ok(self):
+        self.driver.find_element(By.ID,'promtButton').click()
+
+        try:
+            alert = self.driver.switch_to.alert
+        except NoAlertPresentException:
+            self.fail('Alert is not present after click on fourth button.')
+        actual_alert_text = alert.text
+        expected_alert_text = 'Please enter your name'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+        alert.accept()
+        try:
+            prompt_result = self.driver.find_element(By. ID, 'promptResult')
+            self.fail(f"Text {prompt_result.text} should not be present! Call 911 =)")
+        except NoSuchElementException:
+            pass
+
+    def test_prompt_alert_fill_out_field_ok(self):
+        self.driver.find_element(By.ID,'promtButton').click()
+
+        try:
+            alert = self.driver.switch_to.alert
+        except NoAlertPresentException:
+            self.fail('Alert is not present after click on fourth button.')
+
+        actual_alert_text = alert.text
+        expected_alert_text = 'Please enter your name'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+        text_name = 'Billy'
+        alert.send_keys(text_name)
+
+        alert.accept()
+
+        actual_prompt_result_text = self.driver.find_element(By. ID, 'promptResult').text
+        expected_alert_prompt_text = "You entered " + text_name
+        self.assertEqual(actual_prompt_result_text, expected_alert_prompt_text,
+                         f"Unexpected prompt result text: '{actual_prompt_result_text}', expected: '{expected_alert_prompt_text}'.")
+
 
 
 if __name__ == '__main__':
