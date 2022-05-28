@@ -29,6 +29,7 @@ class TestToolsQAAlerts(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+    @unittest.skip
     def test_alert(self):
         self.driver.find_element(By.ID, 'alertButton').click()
 
@@ -41,6 +42,7 @@ class TestToolsQAAlerts(unittest.TestCase):
         self.assertEqual(actual_alert_text, expected_alert_text,
                          f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
 
+    @unittest.skip
     def test_delayed_alert(self):
         self.driver.find_element(By.ID, 'timerAlertButton').click()
 
@@ -59,9 +61,44 @@ class TestToolsQAAlerts(unittest.TestCase):
                          f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
         self.assertAlmostEqual(delay, 5, delta=0.3, msg=f"Alert appeared in {delay} sec, expected in 5 sec.")
 
-    @unittest.skip('TODO')
-    def test_confirmation_alert(self):
-        pass
+    def test_confirmation_alert_accept(self):
+        self.driver.find_element(By.ID, 'confirmButton').click()
+
+        try:
+            alert = self.driver.switch_to.alert
+        except NoAlertPresentException:
+            self.fail('Alert is not present after click on third button.')
+        actual_alert_text = alert.text
+        expected_alert_text = 'Do you confirm action?'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+        alert.accept()
+        confirm_result = self.driver.find_element(By. ID, 'confirmResult')
+        actual_alert_text = confirm_result.text
+        expected_alert_text = 'You selected Ok'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected confirm result text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+    def test_confirmation_alert_cancel(self):
+        self.driver.find_element(By.ID, 'confirmButton').click()
+
+        try:
+            alert = self.driver.switch_to.alert
+        except NoAlertPresentException:
+            self.fail('Alert is not present after click on third button.')
+        actual_alert_text = alert.text
+        expected_alert_text = 'Do you confirm action?'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected alert text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
+        alert.dismiss()
+        confirm_result = self.driver.find_element(By. ID, 'confirmResult')
+        actual_alert_text = confirm_result.text
+        expected_alert_text = 'You selected Cancel'
+        self.assertEqual(actual_alert_text, expected_alert_text,
+                         f"Unexpected confirm result text: '{actual_alert_text}', expected: '{expected_alert_text}'.")
+
 
     @unittest.skip('TODO')
     def test_prompt_alert(self):
