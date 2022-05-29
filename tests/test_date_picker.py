@@ -1,3 +1,4 @@
+import os
 import unittest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -9,12 +10,23 @@ from selenium.webdriver.support.wait import WebDriverWait
 BASE_URL = 'https://demoqa.com/date-picker'
 
 class TestToolsQADatePicker(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
+        """
+        Initiate driver for each test
+        """
         service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
-        self.driver.maximize_window()
+        chrome_options = webdriver.ChromeOptions()
+        if 'CICD_RUN' in os.environ:
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--disable-gpu')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--window-size=1920,1080')
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
+
         self.driver.get(BASE_URL)
         self.wait = WebDriverWait(self.driver, 10)
+
 
     def tearDown(self):
         self.driver.quit()
