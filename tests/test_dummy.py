@@ -3,6 +3,7 @@ import unittest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 
 
 class TestBrowser(unittest.TestCase):
@@ -33,6 +34,20 @@ class TestBrowser(unittest.TestCase):
         """
         self.driver.quit()
 
+    def test_navigate_to_toolsqa(self) -> None:
+        self.driver.get('https://demoqa.com/')
+        self.assertEqual(self.driver.title, 'ToolsQA')
+        element = self.driver.find_element(By.XPATH, '//div[@class="card mt-4 top-card"][1]')
+        element.click()
+        actual_result = self.driver.find_element(By.XPATH, "//div[@class='main-header']").text
+        expected_result = 'Elements'
+        self.assertEqual(expected_result, actual_result)
+
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
+
