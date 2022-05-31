@@ -1,13 +1,9 @@
-import os
 import unittest
-
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from utils.base_test import BaseTest
 
 BASE_URL = 'https://demoqa.com/modal-dialogs'
 
@@ -21,22 +17,10 @@ LARGE_MODAL_CLOSE_BUTTON_ID = 'closeLargeModal'
 LARGE_MODAL_TITLE_ID = 'example-modal-sizes-title-lg'
 
 
-class TestToolsQAModalDialogs(unittest.TestCase):
+class TestToolsQAModalDialogs(BaseTest):
     def setUp(self):
-        service = Service(ChromeDriverManager().install())
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--window-size=1920,1080')
-        if 'CICD_RUN' in os.environ:
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--disable-gpu')
-            chrome_options.add_argument('--disable-dev-shm-usage')
-            chrome_options.add_argument('--headless')
-        self.driver = webdriver.Chrome(service=service, options=chrome_options)
+        self._setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 10)
-        self.driver.get(BASE_URL)
-
-    def tearDown(self):
-        self.driver.quit()
 
     def wait_modal_to_load(self):
         # wait until presence an element on the DOM
