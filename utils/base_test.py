@@ -7,7 +7,7 @@ from utils.screenshot_utils import save_screenshot
 
 
 class BaseTest(unittest.TestCase):
-    def setUp(self):
+    def setUp(self, url=None):
         service = Service(ChromeDriverManager().install())
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--window-size=1920,1080')
@@ -17,6 +17,10 @@ class BaseTest(unittest.TestCase):
             chrome_options.add_argument('--disable-dev-shm-usage')
             chrome_options.add_argument('--headless')
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
+        if url:
+            self.driver.get(url)
+        else:
+            raise RuntimeError('Error: url is not defined')
 
     def tearDown(self):
         for method, error in self._outcome.errors:
