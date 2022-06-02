@@ -11,7 +11,7 @@ CONFIRMATION_RESULT_ID = 'confirmResult'
 
 class TestToolsQAAlerts(BaseTest):
     def setUp(self):
-        super(TestToolsQAAlerts, self).setUp(URL)
+        super().setUp(URL)
 
     def test_alert(self):
         self.driver.find_element(By.ID, INSTANT_ALERT_BUTTON_ID).click()
