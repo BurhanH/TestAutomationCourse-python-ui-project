@@ -14,6 +14,31 @@ class TestSaucedemo(unittest.TestCase):
         self.driver = webdriver.Chrome(service=service)
         self.driver.set_window_size(1024, 768)
 
+    def test_empty_fields(self):
+        self.driver.get(TARGET_URL)
+        sign_in = self.driver.find_element(By.ID, 'login-button')
+        sign_in.click()
+
+        actual_error_message = self.driver.find_element(By.XPATH, '//*[@id="login_button_container"]//h3')
+        expected_error_message = 'Epic sadface: Username is required'
+        self.assertTrue(actual_error_message.is_displayed())
+        self.assertEqual(actual_error_message.text, expected_error_message, 'Error message is not equal to expected')
+
+        # trying to sign in without password
+        user_name = 'standard_user'
+        user_name_field = self.driver.find_element(By.ID, 'user-name')
+        user_name_field.click()
+        user_name_field.send_keys(user_name)
+
+        sign_in = self.driver.find_element(By.ID, 'login-button')
+        sign_in.click()
+
+        actual_error_message = self.driver.find_element(By.XPATH, '//*[@id="login_button_container"]//h3')
+        expected_error_message = 'Epic sadface: Password is required'
+        self.assertTrue(actual_error_message.is_displayed())
+        self.assertEqual(actual_error_message.text, expected_error_message, 'Error message is not equal to expected')
+
+
 
     def test_lock_out_user_autorization(self):
 
