@@ -1,135 +1,125 @@
 import unittest
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium import webdriver
+from utils.base_test import BaseTest
 
 TARGET_URL = 'https://www.saucedemo.com'
+LOGIN_BUTTON_ID = 'login-button'
+USER_NAME_ID = 'user-name'
+PASSWORD_ID = 'password'
+ADD_ITEM_4_ID = 'add-to-cart-sauce-labs-backpack'
+CART_LINK_XPATH = '//*[@id="shopping_cart_container"]/a/span'
+ITEM_4_TITLE_XPATH = '//*[@id="item_4_title_link"]/div'
+ITEM_4_INFO_XPATH = '//*[@id="inventory_item_container"]/div/div/div[2]/div[1]'
+CHECKOUT_BUTTON_ID = 'checkout'
+CONTINUE_BUTTON_ID = 'continue'
+FINISH_BUTTON_ID = 'finish'
+ERROR_MESSAGE_XPATH = '//*[@id="login_button_container"]//h3'
 
 
-class TestSaucedemo(unittest.TestCase):
-
-    def setUp(self) -> None:
-        service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
-        self.driver.set_window_size(1024, 768)
+class TestSaucedemo(BaseTest):
+    def setUp(self):
+        self._setUp(TARGET_URL)
 
     def test_empty_fields(self):
-        self.driver.get(TARGET_URL)
-        sign_in = self.driver.find_element(By.ID, 'login-button')
-        sign_in.click()
+        self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
 
-        actual_error_message = self.driver.find_element(By.XPATH, '//*[@id="login_button_container"]//h3')
+        actual_error_message = self.driver.find_element(By.XPATH, ERROR_MESSAGE_XPATH)
         expected_error_message = 'Epic sadface: Username is required'
         self.assertTrue(actual_error_message.is_displayed())
         self.assertEqual(actual_error_message.text, expected_error_message, 'Error message is not equal to expected')
 
         # trying to sign in without password
         user_name = 'standard_user'
-        user_name_field = self.driver.find_element(By.ID, 'user-name')
-        user_name_field.click()
-        user_name_field.send_keys(user_name)
+        user_name_input = self.driver.find_element(By.ID, USER_NAME_ID)
+        user_name_input.click()
+        user_name_input.send_keys(user_name)
 
-        sign_in = self.driver.find_element(By.ID, 'login-button')
-        sign_in.click()
+        self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
 
-        actual_error_message = self.driver.find_element(By.XPATH, '//*[@id="login_button_container"]//h3')
+        actual_error_message = self.driver.find_element(By.XPATH, ERROR_MESSAGE_XPATH)
         expected_error_message = 'Epic sadface: Password is required'
         self.assertTrue(actual_error_message.is_displayed())
         self.assertEqual(actual_error_message.text, expected_error_message, 'Error message is not equal to expected')
 
-
-
     def test_lock_out_user_autorization(self):
 
-        self.driver.get(TARGET_URL)
         user_name = 'locked_out_user'
         password = 'secret_sauce'
 
-        user_name_field = self.driver.find_element(By.ID, 'user-name')
+        user_name_field = self.driver.find_element(By.ID, USER_NAME_ID)
         user_name_field.click()
         user_name_field.send_keys(user_name)
 
-        password_field = self.driver.find_element(By.ID, 'password')
+        password_field = self.driver.find_element(By.ID, PASSWORD_ID)
         password_field.click()
         password_field.send_keys(password)
 
-        sign_in = self.driver.find_element(By.ID, 'login-button')
-        sign_in.click()
-        actual_error_message = self.driver.find_element(By.XPATH, '//*[@id="login_button_container"]//h3')
+        self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
+
+        actual_error_message = self.driver.find_element(By.XPATH, ERROR_MESSAGE_XPATH)
         expected_error_message = 'Epic sadface: Sorry, this user has been locked out.'
         self.assertTrue(actual_error_message.is_displayed())
         self.assertEqual(actual_error_message.text, expected_error_message, 'Error message is not equal to expected')
 
     def test_problem_user_autorization(self):
 
-        self.driver.get(TARGET_URL)
         user_name = 'problem_user'
         password = 'secret_sauce'
 
-        user_name_field = self.driver.find_element(By.ID, 'user-name')
+        user_name_field = self.driver.find_element(By.ID, USER_NAME_ID)
         user_name_field.click()
         user_name_field.send_keys(user_name)
 
-        password_field = self.driver.find_element(By.ID, 'password')
+        password_field = self.driver.find_element(By.ID, PASSWORD_ID)
         password_field.click()
         password_field.send_keys(password)
 
-        sign_in = self.driver.find_element(By.ID, 'login-button')
-        sign_in.click()
+        self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
 
         self.assertEqual(self.driver.current_url, f'{TARGET_URL}/inventory.html', 'Not an expected url')
 
-        add_item = self.driver.find_element(By.ID, 'add-to-cart-sauce-labs-backpack')
-        add_item.click()
+        self.driver.find_element(By.ID, ADD_ITEM_4_ID).click()
 
-        cart_link = self.driver.find_element(By.XPATH, '//*[@id="shopping_cart_container"]/a/span')
-        cart_link.click()
+        self.driver.find_element(By.XPATH, CART_LINK_XPATH).click()
         self.assertEqual(self.driver.current_url, f'{TARGET_URL}/cart.html', 'This is not an expected url')
-        item_in_cart = self.driver.find_element(By.XPATH, '//*[@id="item_4_title_link"]/div')
-        item_in_cart_text = self.driver.find_element(By.XPATH, '//*[@id="item_4_title_link"]/div').text
-        self.assertTrue(item_in_cart.is_displayed())
-        item_in_cart.click()
-        item_in_cart_info = self.driver.find_element(By.XPATH, '//*[@id="inventory_item_container"]/div/div/div[2]/div[1]').text
-        self.assertNotEqual(item_in_cart_text, item_in_cart_info)
+        item_4_title = self.driver.find_element(By.XPATH, ITEM_4_TITLE_XPATH)
+        self.assertTrue(item_4_title.is_displayed())
+        item_4_title_text = self.driver.find_element(By.XPATH, ITEM_4_TITLE_XPATH).text
+        item_4_title.click()
+        item_4_info = self.driver.find_element(By.XPATH, ITEM_4_INFO_XPATH).text
+        self.assertNotEqual(item_4_title_text, item_4_info)
 
 
     def test_pgu_autorization_and_order(self):
-        self.driver.get(TARGET_URL)
         user_name = 'performance_glitch_user'
         password = 'secret_sauce'
 
-        user_name_field = self.driver.find_element(By.ID, 'user-name')
+        user_name_field = self.driver.find_element(By.ID, USER_NAME_ID)
         user_name_field.click()
         user_name_field.send_keys(user_name)
 
-        password_field = self.driver.find_element(By.ID, 'password')
+        password_field = self.driver.find_element(By.ID, PASSWORD_ID)
         password_field.click()
         password_field.send_keys(password)
 
-        sign_in = self.driver.find_element(By.ID, 'login-button')
-        sign_in.click()
+        self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
 
         self.assertEqual(self.driver.current_url, f'{TARGET_URL}/inventory.html', 'Not an expected url')
 
-        inventory_item_4 = self.driver.find_element(By.XPATH, '//*[@id="item_4_title_link"]/div')
-        inventory_item_4_text = self.driver.find_element(By.XPATH, '//*[@id="item_4_title_link"]/div').text
-        inventory_item_4.click()
+        item_4_title = self.driver.find_element(By.XPATH, ITEM_4_TITLE_XPATH)
+        item_4_title_text = self.driver.find_element(By.XPATH, ITEM_4_TITLE_XPATH).text
+        item_4_title.click()
 
         self.assertEqual(self.driver.current_url, f'{TARGET_URL}/inventory-item.html?id=4')
-        inventory_item_4_info = self.driver.find_element(By.XPATH, '//*[@id="inventory_item_container"]/div/div/div[2]/div[1]').text
-        self.assertEqual(inventory_item_4_text, inventory_item_4_info, 'Item and description does not match')
+        item_4_info = self.driver.find_element(By.XPATH, ITEM_4_INFO_XPATH).text
+        self.assertEqual(item_4_title_text, item_4_info, 'Item and description does not match')
 
-        add_item = self.driver.find_element(By.ID, 'add-to-cart-sauce-labs-backpack')
-        add_item.click()
+        self.driver.find_element(By.ID, ADD_ITEM_4_ID).click()
 
-        cart_link = self.driver.find_element(By.XPATH, '//*[@id="shopping_cart_container"]/a/span')
-        cart_link.click()
+        self.driver.find_element(By.XPATH, CART_LINK_XPATH).click()
 
     #     checkout
-        checkout = self.driver.find_element(By.ID, 'checkout')
-        checkout.click()
-
+        self.driver.find_element(By.ID, CHECKOUT_BUTTON_ID).click()
         self.assertEqual(self.driver.current_url, f'{TARGET_URL}/checkout-step-one.html')
 
     #     typing personal info
@@ -149,17 +139,15 @@ class TestSaucedemo(unittest.TestCase):
         zip_code_input.click()
         zip_code_input.send_keys(zip_code)
 
-        continue_button = self.driver.find_element(By.ID, 'continue')
-        continue_button.click()
+        self.driver.find_element(By.ID, CONTINUE_BUTTON_ID ).click()
 
-        finish_button = self.driver.find_element(By.ID, 'finish')
-        finish_button.click()
+        self.driver.find_element(By.ID, FINISH_BUTTON_ID).click()
 
         self.assertTrue(self.driver.current_url, f'{TARGET_URL}/checkout-complete.html')
 
 
-    def tearDown(self) -> None:
-        self.driver.close()
+    # def tearDown(self) -> None:
+    #     self.driver.close()
 
 
 if __name__ == '__main__':
