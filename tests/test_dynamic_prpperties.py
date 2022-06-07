@@ -12,7 +12,7 @@ DELAYED_VISIBLE_BUTTON_ID = 'visibleAfter'
 class TestDynamicProperties(BaseTest):
 
     def setUp(self):
-        super()._setUp(BASE_URL)
+        super(TestDynamicProperties, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 6)
 
     def test(self):
