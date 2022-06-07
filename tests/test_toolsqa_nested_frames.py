@@ -7,7 +7,7 @@ BASE_URL = 'https://demoqa.com/nestedframes'
 
 class TestToolsQANestedFrames(BaseTest):
     def setUp(self):
-        self._setUp(BASE_URL)
+        super(TestToolsQANestedFrames, self).setUp(BASE_URL)
 
     def test_nested_frames(self):
         main_frame = self.driver.find_element(By.ID, 'frame1')

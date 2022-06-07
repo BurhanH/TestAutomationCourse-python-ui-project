@@ -18,7 +18,7 @@ ERROR_MESSAGE_XPATH = '//*[@id="login_button_container"]//h3'
 
 class TestSaucedemo(BaseTest):
     def setUp(self):
-        self._setUp(TARGET_URL)
+        super(TestSaucedemo, self).setUp(TARGET_URL)
 
     def test_empty_fields(self):
         self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
@@ -28,7 +28,7 @@ class TestSaucedemo(BaseTest):
         self.assertTrue(actual_error_message.is_displayed())
         self.assertEqual(actual_error_message.text, expected_error_message, 'Error message is not equal to expected')
 
-        # trying to sign in without password
+        # sign in without password
         user_name = 'standard_user'
         user_name_input = self.driver.find_element(By.ID, USER_NAME_ID)
         user_name_input.click()
@@ -89,8 +89,7 @@ class TestSaucedemo(BaseTest):
         item_4_info = self.driver.find_element(By.XPATH, ITEM_4_INFO_XPATH).text
         self.assertNotEqual(item_4_title_text, item_4_info)
 
-
-    def test_pgu_autorization_and_order(self):
+    def test_pgu_authorization_and_order(self):
         user_name = 'performance_glitch_user'
         password = 'secret_sauce'
 
@@ -118,11 +117,11 @@ class TestSaucedemo(BaseTest):
 
         self.driver.find_element(By.XPATH, CART_LINK_XPATH).click()
 
-    #     checkout
+        # checkout
         self.driver.find_element(By.ID, CHECKOUT_BUTTON_ID).click()
         self.assertEqual(self.driver.current_url, f'{TARGET_URL}/checkout-step-one.html')
 
-    #     typing personal info
+        # typing personal info
         first_name = 'first'
         last_name = 'last'
         zip_code = 'aaa'
@@ -144,10 +143,6 @@ class TestSaucedemo(BaseTest):
         self.driver.find_element(By.ID, FINISH_BUTTON_ID).click()
 
         self.assertTrue(self.driver.current_url, f'{TARGET_URL}/checkout-complete.html')
-
-
-    # def tearDown(self) -> None:
-    #     self.driver.close()
 
 
 if __name__ == '__main__':

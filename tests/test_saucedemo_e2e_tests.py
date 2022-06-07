@@ -15,9 +15,9 @@ LOGIN_BUTTON_LOCATOR_ID = 'login-button'
 HAMBURGER_MENU_LOCATOR_ID = 'react-burger-menu-btn'
 
 
-class TestBrowser(BaseTest):
+class TestSaucedemoE2E(BaseTest):
     def setUp(self):
-        self._setUp(BASE_URL)
+        super(TestSaucedemoE2E, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 8)
 
     def test_navigate_to_saucedemo_and_verify_title(self) -> None:
