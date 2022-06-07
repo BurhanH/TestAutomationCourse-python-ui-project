@@ -18,7 +18,7 @@ PROMPT_RESULT_ID = 'promptResult'
 
 class TestToolsQAAlerts(BaseTest):
     def setUp(self):
-        self._setUp(BASE_URL)
+        super(TestToolsQAAlerts, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 10)
 
     def test_alert(self):

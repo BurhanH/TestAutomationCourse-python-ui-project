@@ -9,7 +9,7 @@ BASE_URL = 'https://demoqa.com/date-picker'
 
 class TestToolsQADatePicker(BaseTest):
     def setUp(self) -> None:
-        self._setUp(BASE_URL)
+        super(TestToolsQADatePicker, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 10)
 
     def test_select_date_picking(self):
