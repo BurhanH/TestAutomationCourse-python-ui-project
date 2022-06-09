@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from utils.base_test import BaseTest
 import pytest
 
-BASE_URL = 'https://www.saucedemo.com'
+BASE_URL = 'https://www.saucedemo.com/'
 
 USER_NAME = 'standard_user'
 CORRECT_PASSWORD = 'secret_sauce'
@@ -36,7 +36,7 @@ class TestSaucedemoE2E(BaseTest):
         password_input.send_keys(CORRECT_PASSWORD)
 
         self.driver.find_element(By.ID, LOGIN_BUTTON_LOCATOR_ID).click()
-        self.assertEqual(self.driver.current_url, F'{BASE_URL}/inventory.html',
+        self.assertEqual(self.driver.current_url, F'{BASE_URL}inventory.html',
                          'Current url and expected url does not match')
 
     def test_buy_backpack(self) -> None:
@@ -127,6 +127,8 @@ class TestSaucedemoE2E(BaseTest):
         log_out_button.click()
 
         self.driver.find_element(By.ID, 'login_button_container').is_displayed()
+        self.assertEqual(self.driver.current_url, F'{BASE_URL}',
+                         f"Current url '{self.driver.current_url}' and expected url {BASE_URL} does not match')")
 
 
 if __name__ == '__main__':
