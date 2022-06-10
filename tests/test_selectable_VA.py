@@ -11,8 +11,7 @@ BASE_URL = 'https://demoqa.com/selectable'
 
 class TestSelectable(BaseTest):
     def setUp(self) -> None:
-        self._setUp(BASE_URL)
-        self.assertEqual(self.driver.current_url, "https://demoqa.com/selectable")
+        super(TestSelectable, self).setUp(BASE_URL)
 
     def test_selectable_header_is_displayed(self):
         self.assertTrue(self.driver.find_element(By.CLASS_NAME, "main-header"))
@@ -44,9 +43,6 @@ class TestSelectable(BaseTest):
         self.driver.find_element(By.XPATH, "//li[contains(text(),'Nine')]").is_displayed()
         self.driver.find_element(By.XPATH, "//li[contains(text(),'Five')]").is_displayed()
         self.driver.find_element(By.XPATH, "//li[contains(text(),'One')]").is_displayed()
-
-    def tearDown(self) -> None:
-        self.driver.close()
 
 
 if __name__ == '__main__':
