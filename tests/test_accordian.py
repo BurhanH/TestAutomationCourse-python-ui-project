@@ -9,7 +9,7 @@ BASE_URL = 'https://demoqa.com/accordian'
 
 class TestToolsQAAccordian(BaseTest):
     def setUp(self) -> None:
-        self._setUp(BASE_URL)
+        super(TestToolsQAAccordian, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 8)
 
     def test_section_1_link_and_text_appearance(self):

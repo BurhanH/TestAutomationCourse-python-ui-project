@@ -9,7 +9,7 @@ BASE_URL = 'https://demoqa.com'
 
 class TestToolsQANavigation(BaseTest):
     def setUp(self):
-        self._setUp(BASE_URL)
+        super(TestToolsQANavigation, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 8)
 
     def test_navigate_to_toolsQA(self):

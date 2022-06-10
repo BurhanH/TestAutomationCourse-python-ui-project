@@ -4,21 +4,39 @@ Python UI project for Test Automation Course
 
 [![Run Python Tests](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml)
 
-## How to run tests from one file
+## How to run tests from one file - pytest
 
 In terminal execute:
+```
+pytest -v tests/your_test_file.py
+```
 
+## How to run tests by category (markers) - pytest
+
+### Run only tests with marker smoke
+```
+pytest -m smoke -v
+```
+### Run only tests with marker regression
+```
+pytest -m regression -v
+```
+### How to use markers for pytest
+For the reference see files [test_dummy.py](tests/test_dummy.py) and [pytest.ini](pytest.ini).
+Basically, you need to add a new marker with a description into the pytest.ini file or use an existing one and use it in your test suite, see samples in test_dummy.py.
+You can apply many markers for each test as you can depend on your needs.
+
+## How to run tests from one file - unittest
 ```
 python -m unittest -v tests/your_test_file.py
 ```
 
-## How to run specific test (or test method) from test class
-
+## How to run specific test (or test method) from test class - unittest
 ```
 python tests/your_test_file.py YourClass.test_method -v
 ```
 
-## How to run all tests
+## How to run all tests - unittest
 ```
 python -m unittest discover tests "*.py" -v
 ```
