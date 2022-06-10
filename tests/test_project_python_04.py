@@ -5,7 +5,7 @@ from utils.base_test import BaseTest
 class TestPleeease(BaseTest):
 
     def setUp(self) -> None:
-        super(TestToolsQANavigation, self).setUp("https://demoqa.com/")
+        super(TestPleeease, self).setUp("https://demoqa.com/")
 
     def test_1(self):
         doc_link = self.driver.find_element(By.XPATH, "//h5[contains(text(),'Forms')]")
