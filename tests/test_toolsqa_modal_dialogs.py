@@ -19,7 +19,7 @@ LARGE_MODAL_TITLE_ID = 'example-modal-sizes-title-lg'
 
 class TestToolsQAModalDialogs(BaseTest):
     def setUp(self):
-        self._setUp(BASE_URL)
+        super(TestToolsQAModalDialogs, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 10)
 
     def wait_modal_to_load(self):

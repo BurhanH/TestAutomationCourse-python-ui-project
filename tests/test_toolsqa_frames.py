@@ -14,7 +14,7 @@ FRAME_2_SIZE = {'height': 100, 'width': 100}
 
 class TestToolsQAFrames(BaseTest):
     def setUp(self):
-        self._setUp(BASE_URL)
+        super(TestToolsQAFrames, self).setUp(BASE_URL)
 
     def test_frames(self):
         # Test first iframe content, style, and size

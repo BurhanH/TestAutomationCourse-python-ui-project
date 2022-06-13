@@ -15,7 +15,7 @@ SELENIUM_TRAINING_URL = 'https://www.toolsqa.com/selenium-training/'
 
 class TestDemoqaRedirection(BaseTest):
     def setUp(self) -> None:
-        self._setUp(BASE_URL)
+        super(TestDemoqaRedirection, self).setUp(BASE_URL)
         self.wait = WebDriverWait(self.driver, 30)
 
     def test_title_demo_qa(self):
