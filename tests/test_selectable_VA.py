@@ -11,7 +11,7 @@ BASE_URL = 'https://demoqa.com/selectable'
 
 class TestSelectable(BaseTest):
     def setUp(self) -> None:
-        self._setUp(BASE_URL)
+        super(TestSelectable, self).setUp(BASE_URL)
 
     def test_selectable_header_is_displayed(self):
         self.assertEqual(self.driver.current_url, "https://demoqa.com/selectable")
