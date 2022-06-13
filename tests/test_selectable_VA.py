@@ -67,12 +67,12 @@ class TestSelectable(BaseTest):
         self.assertTrue(demo_tab_grid.is_displayed())
         self.driver.find_element(By.ID, "demo-tab-grid").click()
 
-        num_1 = self.driver.find_element(By.CSS_SELECTOR, '#row1>li')   # first number
-        self.assertTrue(num_1.is_displayed(), 'Number 1 is not diplayed!')
+        num_1 = self.driver.find_element(By.CSS_SELECTOR, '#row1>li')
+        self.assertTrue(num_1.is_displayed(), 'Number 1 is not displayed!')
         self.assertTrue('active' not in num_1.get_attribute('class'),
                         'Number 1 button is selected by default.')
         num_1.click()
-        self.assertTrue('active' in num_1.get_attribute('class'),  # verifies 'change' in class
+        self.assertTrue('active' in num_1.get_attribute('class'),
                         'Number one button is not selected after clicking on it.')
 
 
