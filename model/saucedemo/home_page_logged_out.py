@@ -8,10 +8,10 @@ ERROR_MESSAGE_XPATH = '//*[@id="login_button_container"]//h3'
 
 
 class HomePageLoggedOut:
-
     def __init__(self, driver):
         self.driver = driver
 
+    # Actions
     def type_username(self, username):
         self.driver.find_element(By.ID, USER_NAME_ID).send_keys(username)
 
@@ -21,6 +21,7 @@ class HomePageLoggedOut:
     def click_login_button(self):
         self.driver.find_element(By.ID, LOGIN_BUTTON_ID).click()
 
+    # Services
     def get_error_message(self):
         try:
             error_message_el = self.driver.find_element(By.XPATH, ERROR_MESSAGE_XPATH)
