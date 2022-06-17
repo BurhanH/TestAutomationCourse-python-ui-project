@@ -1,0 +1,1 @@
+download_folder is a place where some tests download files.

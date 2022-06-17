@@ -11,7 +11,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from utils.base_test import BaseTest
 from utils.project_utils import get_project_path
 
-DOWNLOAD_FOLDER_PATH = os.path.join(get_project_path(), 'resources', 'downloads')
+DOWNLOAD_FOLDER_PATH = os.path.join(get_project_path(), 'resources', 'downloads_folder')
 
 
 class TestDownloadUploadFile(BaseTest):
