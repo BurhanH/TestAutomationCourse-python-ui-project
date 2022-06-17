@@ -1,13 +1,6 @@
 import os
-import sys
 from datetime import datetime
-
-
-def get_delimiter():
-    if sys.platform == 'win32':
-        return r'\\'
-    else:
-        return '/'
+from utils.project_utils import get_delimiter
 
 
 def save_screenshot(driver, test_case_id):
