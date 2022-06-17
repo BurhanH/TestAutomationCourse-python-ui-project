@@ -1,22 +1,22 @@
 import os
 import pytest
 import unittest
+import http.client as httplib
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 from utils.base_test import BaseTest
-import http.client as httplib
+from utils.project_utils import get_project_path
 
-DOWNLOAD_FOLDER_PATH = os.path.join(os.getcwd(), 'Resources', 'Downloads')
+DOWNLOAD_FOLDER_PATH = os.path.join(get_project_path(), 'resources', 'downloads')
 
 
 class TestDownloadUploadFile(BaseTest):
     """
     Tests for downloading and uploading files.
-    ATTN: Must be ran from command line: pytest -v tests/test_download_upload_file.py
     """
 
     def setUp(self):
@@ -47,7 +47,6 @@ class TestDownloadUploadFile(BaseTest):
 
         self.wait.until(lambda d: len(os.listdir(DOWNLOAD_FOLDER_PATH)) > 0)
         files = os.listdir(DOWNLOAD_FOLDER_PATH)
-        print(files)
         self.assertTrue(expected_downloaded_file_name in files)
         self.assertEqual(os.path.getsize(os.path.join(DOWNLOAD_FOLDER_PATH, expected_downloaded_file_name)), 95258,
                          'Downloaded file has incorrect size.')
@@ -86,7 +85,7 @@ class TestDownloadUploadFile(BaseTest):
     def test_upload(self):
 
         upload_file_name = 'SampleForJPG.jpg'
-        file_path = os.path.join(os.getcwd(), 'Resources', 'FileSample', upload_file_name)
+        file_path = os.path.join(get_project_path(), 'resources', 'file_sample', upload_file_name)
 
         self.driver.get('https://the-internet.herokuapp.com/upload')
         self.driver.find_element(By.ID, 'file-upload').send_keys(file_path)

@@ -1,13 +1,7 @@
 import os
-import sys
-
-
-def get_delimiter():
-    if sys.platform == 'win32':
-        return r'\\'
-    else:
-        return '/'
+from resources.data import PROJECT_NAME
 
 
 def get_project_path():
-    return get_delimiter().join(os.getcwd().split(get_delimiter())[:-1])
+    return os.getcwd().split(PROJECT_NAME)[0] + PROJECT_NAME
+
