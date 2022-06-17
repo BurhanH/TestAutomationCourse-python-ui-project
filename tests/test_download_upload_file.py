@@ -10,8 +10,6 @@ from selenium.webdriver.common.by import By
 from utils.base_test import BaseTest
 import http.client as httplib
 
-UPLOAD_URL = 'https://the-internet.herokuapp.com/upload'
-DOWNLOAD_URL = 'https://the-internet.herokuapp.com/download'
 DOWNLOAD_FOLDER_PATH = os.path.join(os.getcwd(), 'Resources', 'Downloads')
 
 
@@ -44,7 +42,7 @@ class TestDownloadUploadFile(BaseTest):
 
         expected_downloaded_file_name = 'SampleForJPG.jpg'
 
-        self.driver.get(DOWNLOAD_URL)
+        self.driver.get('https://the-internet.herokuapp.com/download')
         self.driver.find_element(By.CSS_SELECTOR, f'a[href="download/{expected_downloaded_file_name}"]').click()
 
         self.wait.until(lambda d: len(os.listdir(DOWNLOAD_FOLDER_PATH)) > 0)
@@ -70,21 +68,19 @@ class TestDownloadUploadFile(BaseTest):
 
     @pytest.mark.smoke
     def test_download_file_link(self):
-        # TODO: finish test, add assertions
+
         self.driver.get('https://www.browserstack.com/test-on-the-right-mobile-devices')
-        self.wait.until(EC.element_to_be_clickable((By.ID, 'accept-cookie-notification'))).click()
 
         csv_download_button_el = self.driver.find_element(By.CSS_SELECTOR, '.icon-csv')
         download_url = csv_download_button_el.get_attribute('href')
+
         connection = httplib.HTTPConnection('browserstack.com')
         connection.request('HEAD', download_url)
         response = connection.getresponse()
-        print(response.status)
-        content_type = response.getheader('Content-type')
-        content_length = response.getheader('Content-length')
-        print(content_type)
-        print(content_length)
-        pytest.fail('test')
+
+        self.assertEqual(response.status, 301)
+        self.assertEqual(response.getheader('content-type'), 'text/html')
+        self.assertEqual(response.getheader('content-length'), '134')
 
     @pytest.mark.smoke
     def test_upload(self):
@@ -92,7 +88,7 @@ class TestDownloadUploadFile(BaseTest):
         upload_file_name = 'SampleForJPG.jpg'
         file_path = os.path.join(os.getcwd(), 'Resources', 'FileSample', upload_file_name)
 
-        self.driver.get(UPLOAD_URL)
+        self.driver.get('https://the-internet.herokuapp.com/upload')
         self.driver.find_element(By.ID, 'file-upload').send_keys(file_path)
         self.driver.find_element(By.ID, 'file-submit').click()
 
