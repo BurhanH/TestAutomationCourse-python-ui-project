@@ -29,9 +29,15 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Experiment print project structure and generate junit xml report
+    - name: Check Chrome version
       run: |
-        pytest test_debug.py -sv --junitxml report.xml
+        google-chrome --version
+
+    - name: Test with pytest and generate junit xml report
+      run: |
+        pytest tests --junitxml report.xml
+      env:
+        CICD_RUN: "yes"
       
     - name: Create test summary
       uses: test-summary/action@v1.0
