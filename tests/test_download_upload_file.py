@@ -37,6 +37,11 @@ class TestDownloadUploadFile(BaseTest):
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
         self.wait = WebDriverWait(self.driver, 4)
 
+    @staticmethod
+    def get_number_of_files_in_downloads_folder():
+        """returns number of completely downloaded files in resources/downloads_folder"""
+        return len(list(filter(lambda file: not file.endswith('.crdownload'), os.listdir(DOWNLOAD_FOLDER_PATH))))
+
     @pytest.mark.smoke
     def test_download_file_option_1(self):
 
@@ -45,8 +50,9 @@ class TestDownloadUploadFile(BaseTest):
         self.driver.get('https://the-internet.herokuapp.com/download')
         self.driver.find_element(By.CSS_SELECTOR, f'a[href="download/{expected_downloaded_file_name}"]').click()
 
-        self.wait.until(lambda d: len(os.listdir(DOWNLOAD_FOLDER_PATH)) > 0)
+        self.wait.until(lambda d: self.get_number_of_files_in_downloads_folder() > 0)
         files = os.listdir(DOWNLOAD_FOLDER_PATH)
+        # print(f'test_download_file_option_1 : {files}')
         self.assertTrue(expected_downloaded_file_name in files)
         self.assertEqual(os.path.getsize(os.path.join(DOWNLOAD_FOLDER_PATH, expected_downloaded_file_name)), 95258,
                          'Downloaded file has incorrect size.')
@@ -58,8 +64,9 @@ class TestDownloadUploadFile(BaseTest):
         self.wait.until(EC.element_to_be_clickable((By.ID, 'accept-cookie-notification'))).click()
         self.driver.find_element(By.CSS_SELECTOR, '.icon-csv').click()
 
-        self.wait.until(lambda d: len(os.listdir(DOWNLOAD_FOLDER_PATH)) > 0)
+        self.wait.until(lambda d: self.get_number_of_files_in_downloads_folder() > 0)
         files = os.listdir(DOWNLOAD_FOLDER_PATH)
+        # print(f'test_download_file_option_2 : {files}')
         expected_downloaded_file_name = 'BrowserStack - List of devices to test on.csv'
         self.assertTrue(expected_downloaded_file_name in files)
         self.assertEqual(os.path.getsize(os.path.join(DOWNLOAD_FOLDER_PATH, expected_downloaded_file_name)), 3187,
