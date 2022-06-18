@@ -134,5 +134,5 @@ dmypy.json
 # Screenshots
 screenshots/
 
-# dummy files such as .placeholder
-.placeholder
+# Ass files in downloads_folder having an extension
+*/downloads_folder/*.*

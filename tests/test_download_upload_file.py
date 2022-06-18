@@ -37,6 +37,12 @@ class TestDownloadUploadFile(BaseTest):
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
         self.wait = WebDriverWait(self.driver, 4)
 
+    def tearDown(self):
+        super(TestDownloadUploadFile, self).tearDown()
+        # required for not messing with git
+        with open(os.path.join(DOWNLOAD_FOLDER_PATH, '.placeholder'), 'w') as file:
+            file.write('dummy file to make downloads_folder visible to git\n')
+
     @staticmethod
     def get_number_of_files_in_downloads_folder():
         """returns number of completely downloaded files in resources/downloads_folder"""
@@ -52,7 +58,6 @@ class TestDownloadUploadFile(BaseTest):
 
         self.wait.until(lambda d: self.get_number_of_files_in_downloads_folder() > 0)
         files = os.listdir(DOWNLOAD_FOLDER_PATH)
-        # print(f'test_download_file_option_1 : {files}')
         self.assertTrue(expected_downloaded_file_name in files)
         self.assertEqual(os.path.getsize(os.path.join(DOWNLOAD_FOLDER_PATH, expected_downloaded_file_name)), 95258,
                          'Downloaded file has incorrect size.')
@@ -66,7 +71,6 @@ class TestDownloadUploadFile(BaseTest):
 
         self.wait.until(lambda d: self.get_number_of_files_in_downloads_folder() > 0)
         files = os.listdir(DOWNLOAD_FOLDER_PATH)
-        # print(f'test_download_file_option_2 : {files}')
         expected_downloaded_file_name = 'BrowserStack - List of devices to test on.csv'
         self.assertTrue(expected_downloaded_file_name in files)
         self.assertEqual(os.path.getsize(os.path.join(DOWNLOAD_FOLDER_PATH, expected_downloaded_file_name)), 3187,
