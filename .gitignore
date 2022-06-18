@@ -133,3 +133,6 @@ dmypy.json
 
 # Screenshots
 screenshots/
+
+# dummy files such as .placeholder
+.placeholder
