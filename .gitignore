@@ -133,3 +133,6 @@ dmypy.json
 
 # Screenshots
 screenshots/
+
+# All files in downloads_folder having an extension
+*/downloads_folder/*.*
