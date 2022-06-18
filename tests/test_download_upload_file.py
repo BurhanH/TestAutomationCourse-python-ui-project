@@ -14,9 +14,9 @@ from utils.project_utils import get_project_path
 DOWNLOAD_FOLDER_PATH = os.path.join(get_project_path(), 'resources', 'downloads_folder')
 
 
-class TestDownloadUploadFile(BaseTest):
+class TestDownloadFile(BaseTest):
     """
-    Tests for downloading and uploading files.
+    Tests for downloading files.
     """
 
     def setUp(self):
@@ -38,7 +38,7 @@ class TestDownloadUploadFile(BaseTest):
         self.wait = WebDriverWait(self.driver, 4)
 
     def tearDown(self):
-        super(TestDownloadUploadFile, self).tearDown()
+        super(TestDownloadFile, self).tearDown()
         # required for not messing with git
         with open(os.path.join(DOWNLOAD_FOLDER_PATH, '.placeholder'), 'w') as file:
             file.write('dummy file to make downloads_folder visible to git\n')
@@ -92,17 +92,29 @@ class TestDownloadUploadFile(BaseTest):
         self.assertEqual(response.getheader('content-type'), 'text/html')
         self.assertEqual(response.getheader('content-length'), '134')
 
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+class TestUploadFile(BaseTest):
+    """
+    Test for uploading a file.
+    """
+    def setUp(self):
+        super(TestUploadFile, self).setUp('https://the-internet.herokuapp.com/upload')
+
     @pytest.mark.smoke
     def test_upload(self):
 
         upload_file_name = 'SampleForJPG.jpg'
         file_path = os.path.join(get_project_path(), 'resources', 'file_sample', upload_file_name)
 
-        self.driver.get('https://the-internet.herokuapp.com/upload')
         self.driver.find_element(By.ID, 'file-upload').send_keys(file_path)
         self.driver.find_element(By.ID, 'file-submit').click()
 
-        successful_upload_message = self.wait.until(EC.visibility_of_element_located((By.ID, 'uploaded-files'))).text
+        successful_upload_message = WebDriverWait(self.driver, 4).until(
+            EC.visibility_of_element_located((By.ID, 'uploaded-files'))).text
         self.assertEqual(successful_upload_message, upload_file_name)
 
 
