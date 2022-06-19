@@ -54,7 +54,8 @@ class TestDownloadFile(BaseTest):
         expected_downloaded_file_name = 'SampleForJPG.jpg'
 
         self.driver.get('https://the-internet.herokuapp.com/download')
-        self.driver.find_element(By.CSS_SELECTOR, f'a[href="download/{expected_downloaded_file_name}"]').click()
+        self.wait.until(EC.element_to_be_clickable((
+            By.CSS_SELECTOR, f'a[href="download/{expected_downloaded_file_name}"]'))).click()
 
         self.wait.until(lambda d: self.get_number_of_files_in_downloads_folder() > 0)
         files = os.listdir(DOWNLOAD_FOLDER_PATH)
