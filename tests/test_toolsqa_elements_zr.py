@@ -53,7 +53,7 @@ class TestDemoqaRedirection(BaseTest):
         self.assertEqual(self.driver.current_url, CHECKBOX_URL)
         home_checkbox = self.wait.until(EC.presence_of_element_located((By.ID, 'tree-node-home')))
         self.assertFalse(home_checkbox.is_selected())
-        self.driver.find_element(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox').click()
+        self.driver.find_elegment(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox').click()
         self.assertTrue(home_checkbox.is_selected())
 
 
