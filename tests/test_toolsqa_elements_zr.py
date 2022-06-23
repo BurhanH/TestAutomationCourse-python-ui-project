@@ -63,7 +63,8 @@ class TestDemoqaRedirection(BaseTest):
         self.assertEqual(self.driver.current_url, CHECKBOX_URL)
         home_checkbox = self.wait.until(EC.presence_of_element_located((By.ID, 'tree-node-home')))
         self.assertFalse(home_checkbox.is_selected())
-        self.driver.find_elegment(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox').click()
+        clickable_element = self.driver.find_element(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox')
+        clickable_element.click()
         self.assertTrue(home_checkbox.is_selected())
 
 
@@ -82,10 +83,6 @@ class TestDemoqaRedirection(BaseTest):
         impressive_element.click()
         self.assertTrue(impressive_button.is_selected())
         no_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#noRadio")))
-        if no_button.is_enabled():
-            print("the button is enable")
-        else:
-            print("the button is disable")
         self.assertFalse(no_button.is_enabled())
 
 
@@ -96,7 +93,6 @@ class TestDemoqaRedirection(BaseTest):
         rows_el = self.driver.find_elements(By.CSS_SELECTOR, 'div.rt-tbody  [role=row]')
         row_count = 0
         for element in rows_el:
-            print(f'text: "{element.text}"')
             if element.text.strip():
                 row_count += 1
         self.assertEqual(row_count, 3, 'Record have not been added.')
@@ -158,20 +154,11 @@ class TestDemoqaRedirection(BaseTest):
 
     def test_download(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
-        chrome_options = Options()
-        p = {'download.default_directory': 'C:\\Users\\Desktop'}
-        chrome_options.add_experimental_option('prefs', p)
-        self.driver.execute_script("window.scrollBy(0,925)", "")
+        self.driver.execute_script("window.scrollBy(0,925)")
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Upload and Download')]").click()
         self.assertEqual(self.driver.current_url, DOWNLOAD_URL)
         self.driver.find_element(By.CSS_SELECTOR, "#downloadButton").click()
-        while not os.path.exists('C:\\Users\\Desktop'):
-            time.sleep(2)
-        # check file
-        if os.path.isfile('C:\\Users\\Desktop\\sampleFile (1).jpeg'):
-            print("File download is completed")
-        else:
-            print("File download is not completed")
+
 
 
 
