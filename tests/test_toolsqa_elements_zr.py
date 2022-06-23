@@ -9,19 +9,21 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-BASE_URL = 'https://demoqa.com/elements'
-TEXT_BOX_URL = 'https://demoqa.com/text-box'
-CHECKBOX_URL = 'https://demoqa.com/checkbox'
-RADIOBUTTON_URL = 'https://demoqa.com/radio-button'
-WEBTABLES_URL = 'https://demoqa.com/webtables'
-BUTTONS_URL = 'https://demoqa.com/buttons'
-LINKS_URL = 'https://demoqa.com/links'
-DOWNLOAD_URL = 'https://demoqa.com/upload-download'
+BASE_URL = 'https://demoqa.com'
+ELEMENTS_URL = f'{BASE_URL}/elements'
+TEXT_BOX_URL = f'{BASE_URL}/text-box'
+CHECKBOX_URL = f'{BASE_URL}/checkbox'
+RADIOBUTTON_URL = f'{BASE_URL}/radio-button'
+WEBTABLES_URL = f'{BASE_URL}/webtables'
+BUTTONS_URL = f'{BASE_URL}/buttons'
+LINKS_URL = f'{BASE_URL}/links'
+DOWNLOAD_URL = f'{BASE_URL}/upload-download'
 
 class TestDemoqaRedirection(BaseTest):
     def setUp(self) -> None:
-        super(TestDemoqaRedirection, self).setUp(BASE_URL)
+        super(TestDemoqaRedirection, self).setUp(ELEMENTS_URL)
         self.wait = WebDriverWait(self.driver, 7)
+
 
     def test_textbox_element(self):
         user_name = 'Full Name'
@@ -31,18 +33,10 @@ class TestDemoqaRedirection(BaseTest):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Text Box')]").click()
         self.assertEqual(self.driver.current_url, TEXT_BOX_URL)
-        name_box = self.driver.find_element(By.ID, 'userName')
-        name_box.click()
-        name_box.send_keys(user_name)
-        email_box = self.driver.find_element(By.ID, "userEmail")
-        email_box.click()
-        email_box.send_keys(email)
-        current_address_box = self.driver.find_element(By.ID, 'currentAddress')
-        current_address_box.click()
-        current_address_box.send_keys(current_address)
-        permanent_address_box = self.driver.find_element(By.ID, 'permanentAddress')
-        permanent_address_box.click()
-        permanent_address_box.send_keys(permanent_address)
+        self.driver.find_element(By.ID, 'userName').send_keys(user_name)
+        self.driver.find_element(By.ID, "userEmail").send_keys(email)
+        self.driver.find_element(By.ID, 'currentAddress').send_keys(current_address)
+        self.driver.find_element(By.ID, 'permanentAddress').send_keys(permanent_address)
         self.driver.find_element(By.ID, 'submit').click()
         actual_result_name = self.driver.find_element(By.XPATH, "//p[@id='name']").text
         expected_result_name = f'Name:{user_name}'
@@ -57,14 +51,14 @@ class TestDemoqaRedirection(BaseTest):
         self.assertEqual(expected_result_current_address, actual_result_current_address)
         self.assertEqual(expected_result_permanent_address, actual_result_permanent_address)
 
+
     def test_checkbox_element(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Check Box')]").click()
         self.assertEqual(self.driver.current_url, CHECKBOX_URL)
         home_checkbox = self.wait.until(EC.presence_of_element_located((By.ID, 'tree-node-home')))
         self.assertFalse(home_checkbox.is_selected())
-        clickable_element = self.driver.find_element(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox')
-        clickable_element.click()
+        self.driver.find_element(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox').click()
         self.assertTrue(home_checkbox.is_selected())
 
 
@@ -74,13 +68,11 @@ class TestDemoqaRedirection(BaseTest):
         self.assertEqual(self.driver.current_url, RADIOBUTTON_URL)
         yes_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#yesRadio")))
         self.assertFalse(yes_button.is_selected())
-        yes_element = self.driver.find_element(By.XPATH, "//input[@id='yesRadio']//following-sibling::label")
-        yes_element.click()
+        self.driver.find_element(By.XPATH, "//input[@id='yesRadio']//following-sibling::label").click()
         self.assertTrue(yes_button.is_selected())
         impressive_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#impressiveRadio")))
         self.assertFalse(impressive_button.is_selected())
-        impressive_element = self.driver.find_element(By.XPATH, "//input[@id='impressiveRadio']//following-sibling::label")
-        impressive_element.click()
+        self.driver.find_element(By.XPATH, "//input[@id='impressiveRadio']//following-sibling::label").click()
         self.assertTrue(impressive_button.is_selected())
         no_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#noRadio")))
         self.assertFalse(no_button.is_enabled())
@@ -105,20 +97,13 @@ class TestDemoqaRedirection(BaseTest):
         age = '55'
         salary = '120'
         department = 'IT'
-        input_first_name = self.driver.find_element(By.CSS_SELECTOR, "#firstName")
-        input_first_name.send_keys(first_name)
-        input_last_name = self.driver.find_element(By.CSS_SELECTOR, "#lastName")
-        input_last_name.send_keys(last_name)
-        input_email = self.driver.find_element(By.CSS_SELECTOR, "#userEmail")
-        input_email.send_keys(email)
-        input_age = self.driver.find_element(By.CSS_SELECTOR, "#age")
-        input_age.send_keys(age)
-        input_salary = self.driver.find_element(By.CSS_SELECTOR, "#salary")
-        input_salary.send_keys(salary)
-        input_department = self.driver.find_element(By.CSS_SELECTOR, "#department")
-        input_department.send_keys(department)
+        self.driver.find_element(By.CSS_SELECTOR, "#firstName").send_keys(first_name)
+        self.driver.find_element(By.CSS_SELECTOR, "#lastName").send_keys(last_name)
+        self.driver.find_element(By.CSS_SELECTOR, "#userEmail").send_keys(email)
+        self.driver.find_element(By.CSS_SELECTOR, "#age").send_keys(age)
+        self.driver.find_element(By.CSS_SELECTOR, "#salary").send_keys(salary)
+        self.driver.find_element(By.CSS_SELECTOR, "#department").send_keys(department)
         self.driver.find_element(By.CSS_SELECTOR, "#submit").click()
-
         rows_el = self.driver.find_elements(By.CSS_SELECTOR, 'div.rt-tbody  [role=row]')
         row_count = 0
         for element in rows_el:
@@ -155,19 +140,9 @@ class TestDemoqaRedirection(BaseTest):
     def test_download(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.execute_script("window.scrollBy(0,925)")
-        download_element = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Upload and Download')]")
-        download_element.click()
+        self.driver.find_element(By.XPATH, "//span[contains(text(), 'Upload and Download')]").click()
         self.assertEqual(self.driver.current_url, DOWNLOAD_URL)
-        download_button = self.driver.find_element(By.CSS_SELECTOR, "#downloadButton")
-        download_button.click()
-
-
-
-
-
-
-
-
+        self.driver.find_element(By.CSS_SELECTOR, "#downloadButton").click()
 
 
 
