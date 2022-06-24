@@ -50,3 +50,7 @@ jobs:
       if: always()
       with:
         files: "report.xml"
+
+    - name: Analysing the code with pylint
+        run: |
+          pylint $(git ls-files '*.py')
