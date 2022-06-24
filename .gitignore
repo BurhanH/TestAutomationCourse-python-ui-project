@@ -136,3 +136,6 @@ screenshots/
 
 # All files in downloads_folder having an extension
 */downloads_folder/*.*
+
+# Mac folder custom attributes
+*.DS_Store
