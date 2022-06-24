@@ -138,8 +138,8 @@ class TestDemoqaRedirection(BaseTest):
 
 
     def test_download(self):
-        self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
-        self.driver.execute_script("window.scrollBy(0,925)")
+        # self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
+        # self.driver.execute_script("window.scrollBy(0,925)")
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Upload and Download')]").click()
         self.assertEqual(self.driver.current_url, DOWNLOAD_URL)
         self.driver.find_element(By.CSS_SELECTOR, "#downloadButton").click()
