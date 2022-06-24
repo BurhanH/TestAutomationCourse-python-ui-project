@@ -4,10 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from utils.base_test import BaseTest
 from selenium.webdriver import ActionChains
-import os
-import time
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 BASE_URL = 'https://demoqa.com'
 ELEMENTS_URL = f'{BASE_URL}/elements'
@@ -19,17 +15,18 @@ BUTTONS_URL = f'{BASE_URL}/buttons'
 LINKS_URL = f'{BASE_URL}/links'
 DOWNLOAD_URL = f'{BASE_URL}/upload-download'
 
+
 class TestDemoqaRedirection(BaseTest):
     def setUp(self) -> None:
         super(TestDemoqaRedirection, self).setUp(ELEMENTS_URL)
         self.wait = WebDriverWait(self.driver, 7)
-
 
     def test_textbox_element(self):
         user_name = 'Full Name'
         email = 'fullname@gmail.com'
         current_address = '2222 S Fairy Ave'
         permanent_address = '1111 E Exposition Ave'
+
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Text Box')]").click()
         self.assertEqual(self.driver.current_url, TEXT_BOX_URL)
@@ -38,19 +35,22 @@ class TestDemoqaRedirection(BaseTest):
         self.driver.find_element(By.ID, 'currentAddress').send_keys(current_address)
         self.driver.find_element(By.ID, 'permanentAddress').send_keys(permanent_address)
         self.driver.find_element(By.ID, 'submit').click()
+
         actual_result_name = self.driver.find_element(By.XPATH, "//p[@id='name']").text
         expected_result_name = f'Name:{user_name}'
+        self.assertEqual(expected_result_name, actual_result_name)
+
         actual_result_email = self.driver.find_element(By.XPATH, "//p[@id='email']").text
         expected_result_email = f'Email:{email}'
+        self.assertEqual(expected_result_email, actual_result_email)
+
         actual_result_current_address = self.driver.find_element(By.XPATH, "//p[@id='currentAddress']").text
         expected_result_current_address = f'Current Address :{current_address}'
+        self.assertEqual(expected_result_current_address, actual_result_current_address)
+
         actual_result_permanent_address = self.driver.find_element(By.XPATH, "//p[@id='permanentAddress']").text
         expected_result_permanent_address = f'Permananet Address :{permanent_address}'
-        self.assertEqual(expected_result_name, actual_result_name)
-        self.assertEqual(expected_result_email, actual_result_email)
-        self.assertEqual(expected_result_current_address, actual_result_current_address)
         self.assertEqual(expected_result_permanent_address, actual_result_permanent_address)
-
 
     def test_checkbox_element(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
@@ -60,7 +60,6 @@ class TestDemoqaRedirection(BaseTest):
         self.assertFalse(home_checkbox.is_selected())
         self.driver.find_element(By.CSS_SELECTOR, 'label[for=tree-node-home] span.rct-checkbox').click()
         self.assertTrue(home_checkbox.is_selected())
-
 
     def test_radio_button_element(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
@@ -77,7 +76,6 @@ class TestDemoqaRedirection(BaseTest):
         no_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#noRadio")))
         self.assertFalse(no_button.is_enabled())
 
-
     def test_web_tables_element(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Web Tables')]").click()
@@ -89,7 +87,8 @@ class TestDemoqaRedirection(BaseTest):
                 row_count += 1
         self.assertEqual(row_count, 3, 'Record have not been added.')
         self.driver.find_element(By.CSS_SELECTOR, "#addNewRecordButton").click()
-        actual_result_regform = self.driver.find_element(By.XPATH, "//div/*[contains(text(), 'Registration Form')]").text
+        actual_result_regform = self.driver.find_element(By.XPATH,
+                                                         "//div/*[contains(text(), 'Registration Form')]").text
         self.assertEqual('Registration Form', actual_result_regform)
         first_name = 'Larisa'
         last_name = 'Larisa'
@@ -112,7 +111,6 @@ class TestDemoqaRedirection(BaseTest):
                 row_count += 1
         self.assertEqual(row_count, 4, 'Record have not been added.')
 
-
     def test_buttons_element(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Buttons')]").click()
@@ -127,7 +125,6 @@ class TestDemoqaRedirection(BaseTest):
         actual_result = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#rightClickMessage'))).text
         self.assertEqual('You have done a right click', actual_result)
 
-
     def test_links(self):
         self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Links')]").click()
@@ -136,14 +133,10 @@ class TestDemoqaRedirection(BaseTest):
         actual_text = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#linkResponse'))).text
         self.assertEqual('Link has responded with staus 201 and status text Created', actual_text)
 
-
     def test_download(self):
-        # self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
-        # self.driver.execute_script("window.scrollBy(0,925)")
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Upload and Download')]").click()
         self.assertEqual(self.driver.current_url, DOWNLOAD_URL)
         self.driver.find_element(By.CSS_SELECTOR, "#downloadButton").click()
-
 
 
 if __name__ == '__main__':
