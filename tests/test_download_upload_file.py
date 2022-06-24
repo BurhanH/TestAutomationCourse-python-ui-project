@@ -35,7 +35,7 @@ class TestDownloadFile(BaseTest):
             chrome_options.add_argument('--disable-dev-shm-usage')
             chrome_options.add_argument('--headless')
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
-        self.wait = WebDriverWait(self.driver, 4)
+        self.wait = WebDriverWait(self.driver, 8)
 
     def tearDown(self):
         super(TestDownloadFile, self).tearDown()
