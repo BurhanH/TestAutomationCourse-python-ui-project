@@ -77,7 +77,6 @@ class TestDemoqaRedirection(BaseTest):
         self.assertFalse(no_button.is_enabled())
 
     def test_web_tables_element(self):
-        self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Web Tables')]").click()
         self.assertEqual(self.driver.current_url, WEBTABLES_URL)
         rows_el = self.driver.find_elements(By.CSS_SELECTOR, 'div.rt-tbody  [role=row]')
@@ -86,10 +85,10 @@ class TestDemoqaRedirection(BaseTest):
             if element.text.strip():
                 row_count += 1
         self.assertEqual(row_count, 3, 'Record have not been added.')
-        self.driver.find_element(By.CSS_SELECTOR, "#addNewRecordButton").click()
-        actual_result_regform = self.driver.find_element(By.XPATH,
-                                                         "//div/*[contains(text(), 'Registration Form')]").text
+        self.driver.find_element(By.ID, "addNewRecordButton").click()
+        actual_result_regform = self.driver.find_element(By.ID, "registration-form-modal").text
         self.assertEqual('Registration Form', actual_result_regform)
+
         first_name = 'Larisa'
         last_name = 'Larisa'
         email = 'larisa@ggg.tj'
@@ -103,6 +102,7 @@ class TestDemoqaRedirection(BaseTest):
         self.driver.find_element(By.CSS_SELECTOR, "#salary").send_keys(salary)
         self.driver.find_element(By.CSS_SELECTOR, "#department").send_keys(department)
         self.driver.find_element(By.CSS_SELECTOR, "#submit").click()
+
         rows_el = self.driver.find_elements(By.CSS_SELECTOR, 'div.rt-tbody  [role=row]')
         row_count = 0
         for element in rows_el:
