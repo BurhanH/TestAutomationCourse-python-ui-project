@@ -124,10 +124,9 @@ class TestDemoqaRedirection(BaseTest):
         self.assertEqual('You have done a right click', actual_result)
 
     def test_links(self):
-        self.driver.find_element(By.XPATH, "//div[@class='header-wrapper']/*[text()='Elements']").click()
         self.driver.find_element(By.XPATH, "//span[contains(text(), 'Links')]").click()
         self.assertEqual(self.driver.current_url, LINKS_URL)
-        self.driver.find_element(By.CSS_SELECTOR, "#created").click()
+        self.wait.until(EC.element_to_be_clickable((By.ID, 'created'))).click()
         actual_text = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#linkResponse'))).text
         self.assertEqual('Link has responded with staus 201 and status text Created', actual_text)
 
