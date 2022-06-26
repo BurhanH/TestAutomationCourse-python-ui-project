@@ -86,8 +86,7 @@ class TestDemoqaRedirection(BaseTest):
                 row_count += 1
         self.assertEqual(row_count, 3, 'Record have not been added.')
         self.driver.find_element(By.ID, "addNewRecordButton").click()
-        actual_result_regform = self.driver.find_element(By.ID, "registration-form-modal").text
-        self.assertEqual('Registration Form', actual_result_regform)
+        self.wait.until(EC.text_to_be_present_in_element((By.ID, 'registration-form-modal'), 'Registration Form'))
 
         first_name = 'Larisa'
         last_name = 'Larisa'
@@ -106,7 +105,6 @@ class TestDemoqaRedirection(BaseTest):
         rows_el = self.driver.find_elements(By.CSS_SELECTOR, 'div.rt-tbody  [role=row]')
         row_count = 0
         for element in rows_el:
-            print(f'text: "{element.text}"')
             if element.text.strip():
                 row_count += 1
         self.assertEqual(row_count, 4, 'Record have not been added.')
