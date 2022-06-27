@@ -41,6 +41,13 @@ python tests/your_test_file.py YourClass.test_method -v
 python -m unittest discover tests "*.py" -v
 ```
 
+## How run pylint static code analyser
+```
+pylint tests/your_test_file.py 
+```
+[pylint](https://pylint.pycqa.org/) will analyse your code, check errors, enforces a coding standard, and
+probably will make suggestions about how the code could be refactored.
+
 ## How to make a PR with your changes into this repository
 
 - Fork repository in GitHub
