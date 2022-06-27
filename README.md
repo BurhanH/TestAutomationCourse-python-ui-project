@@ -4,6 +4,8 @@ Python UI project for Test Automation Course
 
 [![Run Python Tests](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/run_tests.yml)
 
+[![code standard check by pylint](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/code-standard-checker.yml/badge.svg)](https://github.com/BurhanH/TestAutomationCourse-python-ui-project/actions/workflows/code-standard-checker.yml)
+
 ## How to run tests from one file - pytest
 
 In terminal execute:
